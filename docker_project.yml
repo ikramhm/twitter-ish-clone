@@ -2,8 +2,8 @@
   hosts: _development
   become: true
   vars:
-    aws_region: us-east-1
-    ecr_registry: <AWS_account_number>.dkr.ecr.us-east-1.amazonaws.com 
+    aws_region: eu-west-2
+    ecr_registry: 202487627379.dkr.ecr.eu-west-2.amazonaws.com 
   tasks:
     - name: update all packages
       yum:
@@ -92,8 +92,8 @@
   become: true
   vars:
     postgre_container: /home/ec2-user/postgresql
-    container_name: rumeysa_postgre
-    image_name: <AWS_account_number>.dkr.ecr.us-east-1.amazonaws.com/rumeysa-repo/todo-app:postgr
+    container_name: twitter_postgre
+    image_name: 202487627379.dkr.ecr.eu-west-2.amazonaws.com/gmail-ikram/twitter-ish-clone:postgr
   tasks:
     - name: remove {{ container_name }} container and {{ image_name }} if exists
       shell: "docker ps -q --filter 'name={{ container_name }}' && docker stop {{ container_name }} && docker rm -fv {{ container_name }} && docker image rm -f {{ image_name }} || echo 'Not Found'"
@@ -115,8 +115,8 @@
   become: true
   vars:
     container_path: /home/ec2-user/nodejs
-    container_name: rumeysa_nodejs
-    image_name: <AWS_account_number>.dkr.ecr.us-east-1.amazonaws.com/rumeysa-repo/todo-app:nodejs
+    container_name: twitter_nodejs
+    image_name: 202487627379.dkr.ecr.eu-west-2.amazonaws.com/gmail-ikram/twitter-ish-clone:nodejs
   tasks:
     - name: remove {{ container_name }} container and {{ image_name }} if exists
       shell: "docker ps -q --filter 'name={{ container_name }}' && docker stop {{ container_name }} && docker rm -fv {{ container_name }} && docker image rm -f {{ image_name }} || echo 'Not Found'"
@@ -134,8 +134,8 @@
   become: true
   vars:
     container_path: /home/ec2-user/react
-    container_name: rumeysa_react
-    image_name: <AWS_account_number>.dkr.ecr.us-east-1.amazonaws.com/rumeysa-repo/todo-app:react
+    container_name: twitter_react
+    image_name: 202487627379.dkr.ecr.eu-west-2.amazonaws.com/gmail-ikram/twitter-ish-clone:react
   tasks:
     - name: remove {{ container_name }} container and {{ image_name }} image if exists
       shell: "docker ps -q --filter 'name={{ container_name }}' && docker stop {{ container_name }} && docker rm -fv {{ container_name }} && docker image rm -f {{ image_name }} || echo 'Not Found'"
