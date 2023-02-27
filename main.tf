@@ -15,24 +15,27 @@ variable "tags" {
   default = ["postgresql", "nodejs", "react"]
 }
 
+
 resource "aws_instance" "managed_nodes" {
-  ami = "ami-05c96317a6278cfaa" #ami-0f095f89ae15be883 RHEL 8 with HA
-  count = 3
-  instance_type = "t2.micro"
-  key_name = "FirstKey"  #replace with your key name
-  vpc_security_group_ids = [aws_security_group.tf-sec-gr.id]
-  iam_instance_profile = "jenkins-project18-profile"
+  ami                    = "ami-05c96317a6278cfaa" #ami-0f095f89ae15be883 RHEL 8 with HA
+  count                  = 3
+  instance_type          = "t2.micro"
+  key_name               = "gmial-ec2-key"               #replace with your key name
+  vpc_security_group_ids = [aws_security_group.tf-sg.id] #tf-sec-gr
+  subnet_id              = "subnet-0b3d78cdcc86af015"
+  iam_instance_profile   = "jenkins-project" #not arn or anything - just the name of instance profile is enough
+
   tags = {
-    Name = "ansible_${element(var.tags, count.index )}"
-    stack = "ansible_project"
+    Name        = "ansible_${element(var.tags, count.index)}"
+    stack       = "ansible_project"
     environment = "development"
   }
 }
 
-resource "aws_security_group" "tf-sec-gr" {
-  name = "appSecGrp"
+resource "aws_security_group" "tf-sg" {
+  name = "Application-SecGrp"
   tags = {
-    Name = "appSecGrp"
+    Name = "Application-SecGrp"
   }
 
   ingress {
